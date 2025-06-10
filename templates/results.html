@@ -1,0 +1,10 @@
+
+{% if books %}
+  <ul>
+    {% for title, authors in books %}
+      <li><strong>{{ title }}</strong> — {{ ", ".join(authors) }}</li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No books found for this topic.</p>
+{% endif %}
