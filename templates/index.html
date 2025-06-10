@@ -2,31 +2,53 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>NewsRead: Connecting Books to your World</title>
+    <title>Books & News Search</title>
 </head>
 <body>
-    <h1>NewsRead</h1>
-    <p class="subtitle">
-      Reading is a way to facilitate critical dialogue and view the world through different lenses.
-      Find books on current events!
-    </p>
+    <h1>Book & News Explorer</h1>
 
-    <form method="post">
-
-        <input type="text" name="topic" placeholder="Enter current event/topic" required>
-        <button type="submit">Find Books</button>
-
-        <input type="text" name="topic" placeholder="Enter book subject " required>
-        <button type="submit">Find Articles</button>
-
-        <input type="text" name="topic" placeholder="Enter book title " required>
-        <button type="submit">Find Articles</button>
-
+    <!-- Search Form -->
+    <form method="POST">
+        <label for="topic">Enter a subject/topic:</label>
+        <input type="text" id="topic" name="topic" required>
+        <button type="submit">Search</button>
     </form>
 
+    <!-- Show Topic -->
     {% if topic %}
-        <h2>Results for "{{ topic }}"</h2>
-        {% include 'results.html' %}
+        <h2>Results for: "{{ topic }}"</h2>
+    {% endif %}
+
+    <!-- Book Results -->
+    {% if books %}
+        <h3>Books:</h3>
+        <ul>
+            {% for book in books %}
+                <li>
+                    <strong>{{ book.title }}</strong><br>
+                    <em>By: {{ book.authors | join(', ') }}</em><br>
+                    {% if book.subjects %}
+                        Subjects: {{ book.subjects | join(', ') }}
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <!-- News Articles by Book Subject -->
+    {% if articles_by_subject %}
+        <h3>News Articles Related to Book Subjects:</h3>
+        {% for subject, articles in articles_by_subject %}
+            <h4>{{ subject }}</h4>
+            <ul>
+                {% for article in articles %}
+                    <li>
+                        <a href="{{ article.url }}" target="_blank">{{ article.title }}</a>
+                        {% if article.source.name %} ({{ article.source.name }}){% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
     {% endif %}
 </body>
 </html>

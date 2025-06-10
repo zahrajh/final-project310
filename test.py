@@ -11,9 +11,6 @@ if __name__ == "__main__":
     print(f"Found {len(books)} books on '{subject}':\n")
     for idx, (title, authors) in enumerate(books, start=1):
         author_list = ", ".join(authors) if authors else "Unknown Author"
-        print(f"{idx}. {title} — by {author_list}")
+        #print(f"{idx}. {title} — by {author_list}")
 
-#NEWS
-api_key = "ee61095926264b199dc1d5757a13fc3a"
-keyword = "Science fiction"
-get_news(keyword, api_key)
+

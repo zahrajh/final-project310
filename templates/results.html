@@ -1,10 +1,35 @@
-
+# templates/results.html #}
 {% if books %}
+  <h3>Books</h3>
   <ul>
-    {% for title, authors in books %}
-      <li><strong>{{ title }}</strong> — {{ ", ".join(authors) }}</li>
+    {% for book in books %}
+      <li>
+        <strong>{{ book.title }}</strong> — {{ book.authors | join(', ') }}
+      </li>
     {% endfor %}
   </ul>
 {% else %}
-  <p>No books found for this topic.</p>
+  <p><em>No books found.</em></p>
 {% endif %}
+
+{% if articles_by_subject %}
+  <h3>Related Articles</h3>
+  {% for subject, articles in articles_by_subject %}
+    {% if articles %}
+      <section>
+        <h4>Articles on “{{ subject }}”</h4>
+        <ul>
+          {% for art in articles %}
+            <li>
+              <a href="{{ art.url }}" target="_blank">{{ art.title }}</a>
+              {% if art.source %}<small>({{ art.source }})</small>{% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      </section>
+    {% endif %}
+  {% endfor %}
+{% else %}
+  <p><em>No related articles found.</em></p>
+{% endif %}
+
