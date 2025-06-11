@@ -11,13 +11,13 @@ def get_books(subject):
     try:
         with urllib.request.urlopen(url) as response:
             data = json.load(response)
-            books = data.get("works", [])[:1]
+            books = data.get("works", [])[:3]
 
             results = []
             for book in books:
                 title = book.get("title", "Unknown Title")
                 authors = [a.get("name", "Unknown Author") for a in book.get("authors", [])]
-                subjects = book.get("subject", [])[:5]
+                subjects = book.get("subject", [])[:1]
 
                 results.append({
                     "title": title,
@@ -56,7 +56,7 @@ def get_news(keyword, api_key="0b8d12a66aa3412eb225388a9408b11f"):
             result = json.loads(data)
 
             if result['status'] == 'ok':
-                articles = result['articles'][:10]
+                articles = result['articles'][:5]
                 return [
                     {
                         "title": article.get("title"),
