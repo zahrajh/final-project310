@@ -1,8 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request
 from Functions import get_books, get_news
 
 app = Flask(__name__)
-books_cache = []  # simple global cache to hold books temporarily
+books_cache = []
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -13,7 +13,7 @@ def index():
 
     if request.method == 'POST':
         topic = request.form.get('topic')
-        books = get_books(topic)[:5]  # show top 5 books
+        books = get_books(topic)[:5]
         books_cache = books
 
 

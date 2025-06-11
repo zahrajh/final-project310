@@ -2,12 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Books & News Search</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-    <img src="{{ url_for('static', filename='images/book1.jpg') }}" alt="Book 1">
+    <center><img src="{{ url_for('static', filename='images/book1.jpg') }}" alt="Book 1"></center>
 </head>
 <body>
-    <h1>Book & News Explorer</h1>
+    <h1>NewsRead: Visualizing the Connection between Current Events and Books</h1>
 
     <!-- Search Form -->
     <form method="POST">
@@ -42,7 +41,7 @@
             {% for book in books %}
                 <li>
                      {% if book.cover_id %}
-                        <img src="https://covers.openlibrary.org/b/id/{{ book.cover_id }}-M.jpg" alt="Book cover">
+                        <img src="https://covers.openlibrary.org/b/id/{{ book.cover_id }}-M.jpg" alt="Book cover" style="width: 200px; height: auto;" class="center">
                     {% else %}
                         <img src="{{ url_for('static', filename='placeholder.jpg') }}" alt="No cover available">
                      {% endif %}
