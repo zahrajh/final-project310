@@ -56,14 +56,17 @@ def get_news(keyword, api_key="0b8d12a66aa3412eb225388a9408b11f"):
             result = json.loads(data)
 
             if result['status'] == 'ok':
-                articles = result['articles'][:1]
-                # Only print top 10 articles
-                print(f"Found {len(articles)} articles containing '{keyword}':\n")
-                for article in articles:
-                    title = article.get('title')
-                    if title:
-                        print(f"- {title}")
+                articles = result['articles'][:10]
+                return [
+                    {
+                        "title": article.get("title"),
+                        "source": article.get("source", {}).get("name", "Unknown Source")
+                    }
+                    for article in articles if article.get("title")
+                ]
             else:
                 print("Error from API:", result.get('message', 'Unknown error'))
+                return []
     except Exception as e:
         print("Error fetching news:", e)
+        return []

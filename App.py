@@ -1,34 +1,38 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 from Functions import get_books, get_news
 
 app = Flask(__name__)
+books_cache = []  # simple global cache to hold books temporarily
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    global books_cache
     books = []
     topic = None
 
     if request.method == 'POST':
         topic = request.form.get('topic')
+        books = get_books(topic)[:5]  # show top 5 books
+        books_cache = books  # store them for reuse (not production-safe)
 
-        get_news(topic)
+    return render_template('index.html', books=books, topic=topic)
 
-        books = get_books(topic)
-        print(f"Found {len(books)} books on '{topic}':")
-        for book in books:
-            title = book.get("title", "Unknown Title")
-            authors = book.get("authors", [])
-            author_list = ", ".join(authors) if authors else "Unknown Author"
-            print(f"- {title} — by {author_list}")
 
+@app.route('/book/<int:book_id>')
+def book_articles(book_id):
+    if 0 <= book_id < len(books_cache):
+        book = books_cache[book_id]
         articles_by_subject = []
-        if books:
-            for sub in books[0].get("subject", []):
-                arts = get_news(sub)  # must return list of dicts, not print
-                if arts:
-                    articles_by_subject.append((sub, arts))
 
-    return render_template('index.html', books=books, topic=topic, articles_by_subject=articles_by_subject)
+        for sub in book.get("subjects", []):
+            articles = get_news(sub)
+            if articles:
+                articles_by_subject.append({"subject": sub, "articles": articles})
+
+        return render_template('book_articles.html', book=book, articles_by_subject=articles_by_subject)
+    else:
+        return "Book not found", 404
 
 
 if __name__ == '__main__':

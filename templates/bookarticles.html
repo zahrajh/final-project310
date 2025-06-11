@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ book.title }} — News</title>
+</head>
+<body>
+    <h1>{{ book.title }}</h1>
+    <p><em>By: {{ book.authors | join(', ') }}</em></p>
+    {% if book.subjects %}
+        <p>Subjects: {{ book.subjects | join(', ') }}</p>
+    {% endif %}
+
+    <h2>News Articles Related to Book Subjects:</h2>
+    {% for item in articles_by_subject %}
+        <h3>{{ item.subject.title() }}</h3>
+        <ul>
+            {% for article in item.articles %}
+                <li>
+                    <a href="{{ article.url }}" target="_blank">{{ article.title }}</a>
+                    {% if article.source %} ({{ article.source }}){% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+
+    <p><a href="{{ url_for('index') }}">← Back to Search</a></p>
+</body>
+</html>

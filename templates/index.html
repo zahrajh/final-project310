@@ -19,13 +19,29 @@
         <h2>Results for: "{{ topic }}"</h2>
     {% endif %}
 
+    <!-- Optional: Topic-related News Articles -->
+    {% if topic_articles %}
+        <h3>News Articles about "{{ topic }}":</h3>
+        <ul>
+            {% for article in topic_articles %}
+                <li>
+                    <a href="{{ article.url }}" target="_blank">{{ article.title }}</a>
+                    {% if article.source %} ({{ article.source }}){% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
     <!-- Book Results -->
+
     {% if books %}
         <h3>Books:</h3>
         <ul>
             {% for book in books %}
                 <li>
-                    <strong>{{ book.title }}</strong><br>
+                    <a href="{{ url_for('book_articles', book_id=loop.index0) }}">
+                        <strong>{{ book.title }}</strong>
+                    </a><br>
                     <em>By: {{ book.authors | join(', ') }}</em><br>
                     {% if book.subjects %}
                         Subjects: {{ book.subjects | join(', ') }}
@@ -37,14 +53,14 @@
 
     <!-- News Articles by Book Subject -->
     {% if articles_by_subject %}
-        <h3>News Articles Related to Book Subjects:</h3>
-        {% for subject, articles in articles_by_subject %}
-            <h4>{{ subject }}</h4>
+        <h3>News Articles Related to Topics In Book:</h3>
+        {% for item in articles_by_subject %}
+            <h4>{{ item.subject.title() }}</h4>
             <ul>
-                {% for article in articles %}
+                {% for article in item.articles %}
                     <li>
                         <a href="{{ article.url }}" target="_blank">{{ article.title }}</a>
-                        {% if article.source.name %} ({{ article.source.name }}){% endif %}
+                        {% if article.source %} ({{ article.source }}){% endif %}
                     </li>
                 {% endfor %}
             </ul>
