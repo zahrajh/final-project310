@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Books & News Search</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <img src="{{ url_for('static', filename='images/book1.jpg') }}" alt="Book 1">
 </head>
 <body>
     <h1>Book & News Explorer</h1>
@@ -40,6 +41,11 @@
         <ul>
             {% for book in books %}
                 <li>
+                     {% if book.cover_id %}
+                        <img src="https://covers.openlibrary.org/b/id/{{ book.cover_id }}-M.jpg" alt="Book cover">
+                    {% else %}
+                        <img src="{{ url_for('static', filename='placeholder.jpg') }}" alt="No cover available">
+                     {% endif %}
                     <a href="{{ url_for('book_articles', book_id=loop.index0) }}">
                         <strong>{{ book.title }}</strong>
                     </a><br>

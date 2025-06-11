@@ -17,12 +17,14 @@ def get_books(subject):
             for book in books:
                 title = book.get("title", "Unknown Title")
                 authors = [a.get("name", "Unknown Author") for a in book.get("authors", [])]
-                subjects = book.get("subject", [])[:1]
+                subjects = book.get("subject", [])[:3]
+                cover_id = book.get("cover_id")
 
                 results.append({
                     "title": title,
                     "authors": authors,
-                    "subjects": subjects
+                    "subjects": subjects,
+                    "cover_id": cover_id
                 })
 
             if books and "subject" in books[0]:

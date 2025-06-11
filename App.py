@@ -14,7 +14,9 @@ def index():
     if request.method == 'POST':
         topic = request.form.get('topic')
         books = get_books(topic)[:5]  # show top 5 books
-        books_cache = books  # store them for reuse (not production-safe)
+        books_cache = books
+
+
 
     return render_template('index.html', books=books, topic=topic)
 
