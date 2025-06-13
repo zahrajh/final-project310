@@ -45,7 +45,7 @@ def get_books(subject):
 
 
 
-def get_news(keyword, api_key="0b8d12a66aa3412eb225388a9408b11f"):
+def get_news(keyword, api_key="         "):
     base_url = "https://newsapi.org/v2/everything"
     query = urllib.parse.quote(keyword)
     url = f"{base_url}?q={query}&apiKey={api_key}"
